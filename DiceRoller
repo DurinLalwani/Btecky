@@ -1,0 +1,77 @@
+package diceroller;
+
+import java.io.*;
+import java.util.Random;
+
+class DiceRoller {
+
+    // Get number of sides on each die with validation.
+    private static int getDiceSides() {
+        int sides = 0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        while (true) {
+            System.out.print("How many sides are on the dice? ");
+            try {
+                sides = Integer.parseInt(br.readLine());
+                if (sides > 0) {
+                    break; // Valid input
+                } else {
+                    System.out.println("Please enter a number greater than 0.");
+                }
+            } catch (IOException | NumberFormatException exc) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+        return sides;
+    }
+
+    // Get total number of dice to roll with validation.
+    private static int getNumberOfDice() {
+        int dice = 0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        while (true) {
+            System.out.print("How many dice to roll? ");
+            try {
+                dice = Integer.parseInt(br.readLine());
+                if (dice > 0) {
+                    break; // Valid input
+                } else {
+                    System.out.println("Please enter a number greater than 0.");
+                }
+            } catch (IOException | NumberFormatException exc) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+        return dice;
+    }
+
+    // Roll total number of dice within the range of sides.
+    private static int[] rollDice(int sides, int dice) {
+        int[] numbers = new int[dice];
+        Random rand = new Random();
+
+        for (int i = 0; i < dice; i++) {
+            numbers[i] = rand.nextInt(sides) + 1; // Ensures the roll is between 1 and the number of sides
+        }
+
+        return numbers;
+    }
+
+    // Display output from rolling dice given sides and number of dice.
+    public static void main(String[] args) {
+        int sides = getDiceSides();
+        int dice = getNumberOfDice();
+
+        int[] numbers = rollDice(sides, dice);
+
+        System.out.print("Rolls: ");
+        int sum = 0;
+        for (int n : numbers) {
+            System.out.print(n + " ");
+            sum += n;
+        }
+        System.out.println("\nTotal Sum of Rolls: " + sum);
+    }
+}
